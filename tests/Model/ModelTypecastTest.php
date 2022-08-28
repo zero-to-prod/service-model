@@ -1,7 +1,6 @@
 <?php
 /** @noinspection PhpUndefinedFieldInspection */
 
-use ZeroToProd\ServiceModel\Casts\IntCast;
 use ZeroToProd\ServiceModel\Casts\StringCast;
 use ZeroToProd\ServiceModel\DataType;
 use ZeroToProd\ServiceModel\Model;
