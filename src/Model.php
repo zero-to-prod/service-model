@@ -9,7 +9,7 @@ use ZeroToProd\ServiceModel\Casts\StringCast;
 
 class Model
 {
-    protected array $attributes;
+    protected array $attributes = [];
 
     public function __construct(array $attributes = [], Schema $schema = new Schema)
     {
@@ -62,6 +62,19 @@ class Model
 
     public function __isset($name)
     {
+    }
+
+    public function toArray(): ?array
+    {
+        if ($this->attributes === []) {
+            return null;
+        }
+        $array = [];
+        foreach ($this->attributes as $key => $value) {
+            $array[$key] = $this->attributes[$key]->value;
+        }
+
+        return $array;
     }
 
     private function addAttribute($name, $value, DataType $type, string $cast): void
