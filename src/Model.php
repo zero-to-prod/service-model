@@ -19,7 +19,7 @@ class Model
     protected function registerAttributes(array $attributes, Schema $schema): void
     {
         /** @var Type $type */
-        foreach ($schema->attributes as $name => $type) {
+        foreach ($schema->types as $name => $type) {
             if (! isset($attributes[$name])) {
                 $this->attributes[$name] = null;
                 continue;
@@ -69,11 +69,6 @@ class Model
         $this->attributes[$name] = new Type($value, $type, $cast);
     }
 
-    /**
-     * @param  \ZeroToProd\ServiceModel\Type  $type
-     *
-     * @return string
-     */
     protected function getCast(Type $type): string
     {
         $default_cast = $this->castDefaults($type->type);
