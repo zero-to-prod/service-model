@@ -1,0 +1,26 @@
+{
+    "name": "zero-to-prod/service-model",
+    "description": "Eloquent-like models for your service.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "ZeroToProd\\ServiceModel\\": "src/",
+            "App\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "David Smith",
+            "email": "dave0016@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "pestphp/pest": "^1.21"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}
