@@ -9,7 +9,7 @@ test('use schema property the model', function () {
     $schema = new class extends Schema {
         public function __construct()
         {
-            $this->registerType('id');
+            $this->registerAttribute('id');
         }
     };
     $model = new class extends Model {
@@ -23,7 +23,7 @@ test('use schema property the model', function () {
 class TestSchema extends Schema {
     public function __construct()
     {
-        $this->registerType('id');
+        $this->registerAttribute('id');
     }
 }
 test('use schema property in constructor', function () {
@@ -32,7 +32,7 @@ test('use schema property in constructor', function () {
     $schema = new class extends Schema {
         public function __construct()
         {
-            $this->registerType('id');
+            $this->registerAttribute('id');
         }
     };
 

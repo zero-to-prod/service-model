@@ -10,7 +10,7 @@ test('returns an attribute', function () {
     $schema = new class extends Schema {
         public function __construct()
         {
-            $this->registerType('id');
+            $this->registerAttribute('id');
         }
     };
 
@@ -26,8 +26,8 @@ test('returns two attributes', function () {
     $schema = new class extends Schema {
         public function __construct()
         {
-            $this->registerType('id');
-            $this->registerType('name');
+            $this->registerAttribute('id');
+            $this->registerAttribute('name');
         }
     };
 
