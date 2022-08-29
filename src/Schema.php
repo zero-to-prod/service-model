@@ -6,10 +6,10 @@ use ZeroToProd\ServiceModel\Casts\NullCast;
 
 class Schema
 {
-    public array $types = [];
+    public array $attributes = [];
 
-    public function registerType(string $name, DataType $type = DataType::null, string $cast = NullCast::class): void
+    public function registerAttribute(string $name, DataType $type = DataType::null, string $cast = NullCast::class): void
     {
-        $this->types[$name] = new Type($name, $type, $cast);
+        $this->attributes[$name] = new Type($name, $type, $cast);
     }
 }

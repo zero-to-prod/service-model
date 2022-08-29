@@ -24,7 +24,7 @@ test('returns an attribute to an array', function () {
     $schema = new class extends Schema {
         public function __construct()
         {
-            $this->registerType('id');
+            $this->registerAttribute('id');
         }
     };
 
@@ -40,7 +40,7 @@ test('returns an attribute to an array after dynamic set', function () {
     $schema = new class extends Schema {
         public function __construct()
         {
-            $this->registerType('id');
+            $this->registerAttribute('id');
         }
     };
 
@@ -56,8 +56,8 @@ test('returns two attributes to an array', function () {
     $schema = new class extends Schema {
         public function __construct()
         {
-            $this->registerType('id');
-            $this->registerType('name');
+            $this->registerAttribute('id');
+            $this->registerAttribute('name');
         }
     };
 

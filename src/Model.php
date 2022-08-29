@@ -20,20 +20,20 @@ class Model
     protected function registerAttributes(array $attributes, Schema $schema): void
     {
         /** @var Type $type */
-        foreach ($schema->types as $name => $type) {
+        foreach ($schema->attributes as $name => $type) {
+            // Do not permit unregistered attributes.
             if (! isset($attributes[$name])) {
-                $this->attributes[$name] = null;
                 continue;
             }
 
-            $cast  = $this->getCast($type);
-            $value = (new $cast)->set($attributes[$name]);
+            $typecast_class_name = $this->getTypecastClassName($type);
+            $value = (new $typecast_class_name)->set($attributes[$name]);
 
-            $this->addAttribute($name, $value, $type->type, $cast);
+            $this->addAttribute($name, $value, $type->type, $typecast_class_name);
         }
     }
 
-    private function castDefaults(DataType $type): string
+    private function getTypecastDefaults(DataType $type): string
     {
         return match ($type) {
             DataType::null => NullCast::class,
@@ -51,7 +51,7 @@ class Model
             return $type?->value;
         }
 
-        $cast = $this->getCast($type);
+        $cast = $this->getTypecastClassName($type);
 
         return (new $cast)->get($type->value);
     }
@@ -78,18 +78,23 @@ class Model
         return $array;
     }
 
-    private function addAttribute($name, $value, DataType $type, string $cast): void
+    private function addAttribute($name, $value, DataType $type, string $typecast_class_name): void
     {
-        $this->attributes[$name] = new Type($value, $type, $cast);
+        $this->attributes[$name] = new Type($value, $type, $typecast_class_name);
     }
 
-    protected function getCast(Type $type): string
+    protected function getTypecastClassName(Type $type): string
     {
-        $default_cast = $this->castDefaults($type->type);
+        $default_cast = $this->getTypecastDefaults($type->type);
 
         return $type->cast === NullCast::class ? $default_cast : $type->cast;
     }
 
+    /**
+     * If there is a schema defined on the model use it.
+     * If there is a schema defined in the constructor, use it.
+     * If there is no schema defined create an empty one.
+     */
     protected function getSchema(?Schema $schema): mixed
     {
         if ($this->schema !== null) {
