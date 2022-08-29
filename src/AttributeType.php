@@ -2,7 +2,7 @@
 
 namespace ZeroToProd\ServiceModel;
 
-enum DataType
+enum AttributeType
 {
     case null;
     case int;

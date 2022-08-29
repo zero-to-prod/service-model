@@ -8,8 +8,8 @@ class Schema
 {
     public array $attributes = [];
 
-    public function registerAttribute(string $name, DataType $type = DataType::null, string $cast = NullCast::class): void
+    public function registerAttribute(string $name, AttributeType $type = AttributeType::null, string $cast = NullCast::class): void
     {
-        $this->attributes[$name] = new Type($name, $type, $cast);
+        $this->attributes[$name] = new Attribute($name, $type, $cast);
     }
 }

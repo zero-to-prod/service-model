@@ -2,9 +2,9 @@
 
 namespace App\Casts;
 
-use ZeroToProd\ServiceModel\CastsAttribute;
+use ZeroToProd\ServiceModel\CastsAttributes;
 
-class PlusOneCast implements CastsAttribute
+class PlusOneCast implements CastsAttributes
 {
     public function get($value): int
     {

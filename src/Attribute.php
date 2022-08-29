@@ -4,11 +4,11 @@ namespace ZeroToProd\ServiceModel;
 
 use ZeroToProd\ServiceModel\Casts\NullCast;
 
-class Type
+class Attribute
 {
     public function __construct(
         public mixed $value,
-        public DataType $type = DataType::null,
+        public AttributeType $type = AttributeType::null,
         public string $cast = NullCast::class
     ) {
     }

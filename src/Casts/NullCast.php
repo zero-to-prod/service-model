@@ -2,9 +2,9 @@
 
 namespace ZeroToProd\ServiceModel\Casts;
 
-use ZeroToProd\ServiceModel\CastsAttribute;
+use ZeroToProd\ServiceModel\CastsAttributes;
 
-class NullCast implements CastsAttribute
+class NullCast implements CastsAttributes
 {
     public function get($value): string
     {

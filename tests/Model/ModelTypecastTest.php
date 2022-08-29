@@ -2,7 +2,7 @@
 /** @noinspection PhpUndefinedFieldInspection */
 
 use ZeroToProd\ServiceModel\Casts\StringCast;
-use ZeroToProd\ServiceModel\DataType;
+use ZeroToProd\ServiceModel\AttributeType;
 use ZeroToProd\ServiceModel\Model;
 use ZeroToProd\ServiceModel\Schema;
 
@@ -12,7 +12,7 @@ test('can override default', function () {
     $schema = new class extends Schema {
         public function __construct()
         {
-            $this->registerAttribute('id', DataType::int, StringCast::class);
+            $this->registerAttribute('id', AttributeType::int, StringCast::class);
         }
     };
 
@@ -27,7 +27,7 @@ test('typecast to int', function () {
     $schema = new class extends Schema {
         public function __construct()
         {
-            $this->registerAttribute('id', DataType::int);
+            $this->registerAttribute('id', AttributeType::int);
         }
     };
 
@@ -42,7 +42,7 @@ test('typecast to string', function () {
     $schema = new class extends Schema {
         public function __construct()
         {
-            $this->registerAttribute('id', DataType::string);
+            $this->registerAttribute('id', AttributeType::string);
         }
     };
 
@@ -57,7 +57,7 @@ test('typecast to immutable time from datetime immutable', function () {
     $schema = new class extends Schema {
         public function __construct()
         {
-            $this->registerAttribute('created_at', DataType::datetime_immutable);
+            $this->registerAttribute('created_at', AttributeType::datetime_immutable);
         }
     };
 
@@ -72,7 +72,7 @@ test('typecast to immutable time from string', function () {
     $schema = new class extends Schema {
         public function __construct()
         {
-            $this->registerAttribute('created_at', DataType::datetime_immutable);
+            $this->registerAttribute('created_at', AttributeType::datetime_immutable);
         }
     };
 

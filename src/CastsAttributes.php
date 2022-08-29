@@ -2,7 +2,7 @@
 
 namespace ZeroToProd\ServiceModel;
 
-interface CastsAttribute
+interface CastsAttributes
 {
     public function get($value);
 

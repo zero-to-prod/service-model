@@ -4,9 +4,9 @@ namespace ZeroToProd\ServiceModel\Casts;
 
 use DateTimeImmutable;
 use Exception;
-use ZeroToProd\ServiceModel\CastsAttribute;
+use ZeroToProd\ServiceModel\CastsAttributes;
 
-class DatetimeImmutableCast implements CastsAttribute
+class DatetimeImmutableCast implements CastsAttributes
 {
     public function get($value): DateTimeImmutable
     {
