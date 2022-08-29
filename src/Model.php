@@ -10,10 +10,19 @@ use ZeroToProd\ServiceModel\Casts\StringCast;
 class Model
 {
     protected array $attributes = [];
+    protected ?string $schema = null;
 
-    public function __construct(array $attributes = [], Schema $schema = new Schema)
+    public function __construct(array $attributes = [], ?Schema $schema = null)
     {
-        $this->registerAttributes($attributes, $schema);
+        if ($this->schema !== null) {
+            $selected_schema = new $this->schema;
+        } elseif ($schema !== null) {
+            $selected_schema = $schema;
+        } else {
+            $selected_schema = new Schema;
+        }
+
+        $this->registerAttributes($attributes, $selected_schema);
     }
 
     protected function registerAttributes(array $attributes, Schema $schema): void
