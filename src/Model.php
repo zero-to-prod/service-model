@@ -10,7 +10,7 @@ use ZeroToProd\ServiceModel\Casts\StringCast;
 class Model
 {
     protected array $attributes = [];
-    protected ?string $schema = null;
+    protected string $schema = '';
 
     public function __construct(array $attributes = [], ?Schema $schema = null)
     {
@@ -92,7 +92,7 @@ class Model
 
     protected function getSchema(?Schema $schema): mixed
     {
-        if ($this->schema !== null) {
+        if ($this->schema !== '') {
             $selected_schema = new $this->schema;
         } elseif ($schema !== null) {
             $selected_schema = $schema;

@@ -13,7 +13,7 @@ test('use schema property the model', function () {
         }
     };
     $model = new class extends Model {
-        protected ?string $schema = TestSchema::class;
+        protected string $schema = TestSchema::class;
     };
 
     $model = new $model(['id' => $test_value], $schema);
