@@ -26,14 +26,14 @@ class Model
                 continue;
             }
 
-            $attribute_cast = $this->makeAttributeCast($type);
+            $attribute_cast = $this->makeCast($type);
             $value          = $attribute_cast->set($attributes[$name]);
 
             $this->registerAttribute($name, $value, $type->type, $attribute_cast::class);
         }
     }
 
-    private function getAttributeCastDefault(AttributeType $type): string
+    private function getCastClassname(AttributeType $type): string
     {
         return match ($type) {
             AttributeType::null => NullCast::class,
@@ -51,7 +51,7 @@ class Model
             return $type?->value;
         }
 
-        return $this->makeAttributeCast($type)->get($type->value);
+        return $this->makeCast($type)->get($type->value);
     }
 
     public function __set($name, $value)
@@ -76,17 +76,17 @@ class Model
         return $array;
     }
 
-    private function registerAttribute($name, $value, AttributeType $type, string $typecast_class_name): void
+    private function registerAttribute($name, $value, AttributeType $type, string $cast_class_name): void
     {
-        $this->attributes[$name] = new Attribute($value, $type, $typecast_class_name);
+        $this->attributes[$name] = new Attribute($value, $type, $cast_class_name);
     }
 
-    protected function makeAttributeCast(Attribute $type): CastsAttributes
+    protected function makeCast(Attribute $type): CastsAttributes
     {
         return new (
-        $type->cast === NullCast::class
-            ? $this->getAttributeCastDefault($type->type)
-            : $type->cast
+        $type->cast_classname === NullCast::class
+            ? $this->getCastClassname($type->type)
+            : $type->cast_classname
         );
     }
 }

@@ -9,7 +9,7 @@ class Attribute
     public function __construct(
         public mixed $value,
         public AttributeType $type = AttributeType::null,
-        public string $cast = NullCast::class
+        public string $cast_classname = NullCast::class
     ) {
     }
 }
