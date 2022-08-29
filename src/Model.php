@@ -14,15 +14,7 @@ class Model
 
     public function __construct(array $attributes = [], ?Schema $schema = null)
     {
-        if ($this->schema !== null) {
-            $selected_schema = new $this->schema;
-        } elseif ($schema !== null) {
-            $selected_schema = $schema;
-        } else {
-            $selected_schema = new Schema;
-        }
-
-        $this->registerAttributes($attributes, $selected_schema);
+        $this->registerAttributes($attributes, $this->getSchema($schema));
     }
 
     protected function registerAttributes(array $attributes, Schema $schema): void
@@ -96,5 +88,18 @@ class Model
         $default_cast = $this->castDefaults($type->type);
 
         return $type->cast === NullCast::class ? $default_cast : $type->cast;
+    }
+
+    protected function getSchema(?Schema $schema): mixed
+    {
+        if ($this->schema !== null) {
+            $selected_schema = new $this->schema;
+        } elseif ($schema !== null) {
+            $selected_schema = $schema;
+        } else {
+            $selected_schema = new Schema;
+        }
+
+        return $selected_schema;
     }
 }
