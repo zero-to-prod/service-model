@@ -63,7 +63,7 @@ test('typecast to immutable time from datetime immutable', function () {
 
     $model = new Model(['created_at' => $test_value], $schema);
 
-    expect(is_a($model->created_at, DateTimeImmutable::class))->toBeTrue();
+    expect($model->created_at)->datetimeImmutable();
 });
 
 test('typecast to immutable time from string', function () {
@@ -78,5 +78,5 @@ test('typecast to immutable time from string', function () {
 
     $model = new Model(['created_at' => $test_value], $schema);
 
-    expect(is_a($model->created_at, DateTimeImmutable::class))->toBeTrue();
+    expect($model->created_at)->datetimeImmutable();
 });

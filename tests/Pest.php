@@ -28,6 +28,12 @@ expect()->extend('toBeOne', function () {
     return $this->toBe(1);
 });
 
+expect()->extend('datetimeImmutable', function () {
+    $this->value = is_a($this->value, DateTimeImmutable::class);
+
+    return $this->toBeTrue();
+});
+
 /*
 |--------------------------------------------------------------------------
 | Functions
