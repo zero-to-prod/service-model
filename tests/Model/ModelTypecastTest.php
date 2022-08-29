@@ -12,7 +12,7 @@ test('can override default', function () {
     $schema = new class extends Schema {
         public function __construct()
         {
-            $this->registerType('id', DataType::int, StringCast::class);
+            $this->registerAttribute('id', DataType::int, StringCast::class);
         }
     };
 
@@ -27,7 +27,7 @@ test('typecast to int', function () {
     $schema = new class extends Schema {
         public function __construct()
         {
-            $this->registerType('id', DataType::int);
+            $this->registerAttribute('id', DataType::int);
         }
     };
 
@@ -42,7 +42,7 @@ test('typecast to string', function () {
     $schema = new class extends Schema {
         public function __construct()
         {
-            $this->registerType('id', DataType::string);
+            $this->registerAttribute('id', DataType::string);
         }
     };
 
@@ -57,13 +57,13 @@ test('typecast to immutable time from datetime immutable', function () {
     $schema = new class extends Schema {
         public function __construct()
         {
-            $this->registerType('created_at', DataType::datetime_immutable);
+            $this->registerAttribute('created_at', DataType::datetime_immutable);
         }
     };
 
     $model = new Model(['created_at' => $test_value], $schema);
 
-    expect(is_a($model->created_at, DateTimeImmutable::class))->toBeTrue();
+    expect($model->created_at)->datetimeImmutable();
 });
 
 test('typecast to immutable time from string', function () {
@@ -72,11 +72,11 @@ test('typecast to immutable time from string', function () {
     $schema = new class extends Schema {
         public function __construct()
         {
-            $this->registerType('created_at', DataType::datetime_immutable);
+            $this->registerAttribute('created_at', DataType::datetime_immutable);
         }
     };
 
     $model = new Model(['created_at' => $test_value], $schema);
 
-    expect(is_a($model->created_at, DateTimeImmutable::class))->toBeTrue();
+    expect($model->created_at)->datetimeImmutable();
 });

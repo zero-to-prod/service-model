@@ -10,7 +10,7 @@ test('sets a registered attribute', function () {
     $schema = new class extends Schema {
         public function __construct()
         {
-            $this->registerType('id');
+            $this->registerAttribute('id');
         }
     };
 
