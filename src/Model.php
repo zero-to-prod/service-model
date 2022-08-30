@@ -32,7 +32,7 @@ class Model
                 continue;
             }
 
-            $cast = $this->makeCast($attribute);
+            $cast  = $this->makeCast($attribute);
             $value = $cast->set($attributes[$name]);
 
             $this->registerAttribute($name, $attribute->type, $cast::class, $value);
@@ -78,7 +78,6 @@ class Model
         } else {
             $this->attributes[$name] = new Attribute($value, $attribute->type, $attribute->cast);
         }
-
     }
 
     public function __isset($name)
