@@ -23,23 +23,24 @@ class Model
             return;
         }
 
+        /** @var string $key */
         /** @var Attribute $attribute */
-        foreach ($schema->attributes as $name => $attribute) {
+        foreach ($schema->attributes as $key => $attribute) {
             // Do not permit unregistered attributes.
-            if (! isset($attributes[$name])) {
+            if (! isset($attributes[$key])) {
                 continue;
             }
 
             $cast  = $this->makeCast($attribute);
-            $value = $cast->set($attributes[$name]);
+            $value = $cast->set($attributes[$key]);
 
-            $this->registerAttribute($name, $value, $attribute->type, $cast::class);
+            $this->registerAttribute($key, $value, $attribute->type, $cast::class);
         }
     }
 
-    private function registerAttribute($name, $value, AttributeType $type, string $cast_class_name): void
+    private function registerAttribute(string $name, $value, AttributeType $type, string $cast): void
     {
-        $this->attributes[$name] = new Attribute($value, $type, $cast_class_name);
+        $this->attributes[$name] = new Attribute($value, $type, $cast);
     }
 
     private function getDefaultCastFQNS(AttributeType $type): string
@@ -54,14 +55,14 @@ class Model
 
     public function __get($name)
     {
-        /** @var Attribute $type */
-        $type = $this->attributes[$name] ?? null;
+        /** @var Attribute $attribute */
+        $attribute = $this->attributes[$name] ?? null;
 
-        if ($type === null) {
-            return $type?->value;
+        if ($attribute === null) {
+            return $attribute?->value;
         }
 
-        return $this->makeCast($type)->get($type->value);
+        return $this->makeCast($attribute)->get($attribute->value);
     }
 
     public function __set($name, $value)
@@ -79,8 +80,10 @@ class Model
             return [];
         }
 
-        foreach ($this->attributes as $name => $value) {
-            $array[$name] = $this->attributes[$name]->value;
+        /** @var string $key */
+        /** @var Attribute $attribute */
+        foreach ($this->attributes as $key => $attribute) {
+            $array[$key] = $this->attributes[$key]->value;
         }
 
         return $array ?? [];
