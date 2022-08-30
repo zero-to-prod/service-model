@@ -27,7 +27,5 @@ class DatetimeImmutableCast implements CastsAttributes
             return new DateTimeImmutable($value);
         } catch (Exception) {
         }
-
-        return new DateTimeImmutable;
     }
 }
