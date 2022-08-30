@@ -2,10 +2,7 @@
 
 namespace ZeroToProd\ServiceModel;
 
-use ZeroToProd\ServiceModel\Casts\DatetimeImmutableCast;
-use ZeroToProd\ServiceModel\Casts\IntCast;
 use ZeroToProd\ServiceModel\Casts\NullCast;
-use ZeroToProd\ServiceModel\Casts\StringCast;
 
 class Model
 {
@@ -48,16 +45,6 @@ class Model
         $this->attributes[$name] = new Attribute($value, $type, $cast);
     }
 
-    private function getDefaultCastFQNS(AttributeType $type): string
-    {
-        return match ($type) {
-            AttributeType::null => NullCast::class,
-            AttributeType::int => IntCast::class,
-            AttributeType::string => StringCast::class,
-            AttributeType::datetime_immutable => DatetimeImmutableCast::class,
-        };
-    }
-
     public function __get($name)
     {
         $attribute = $this->attributes[$name] ?? null;
@@ -76,7 +63,7 @@ class Model
         if ($attribute === null) {
             $this->registerAttribute($name, value: $value);
         } else {
-            $this->attributes[$name] = new Attribute($value, $attribute->type, $attribute->cast);
+            $this->attributes[$name] = new Attribute($value, $attribute->type, $attribute->cast_classname);
         }
     }
 
@@ -100,9 +87,9 @@ class Model
     protected function makeCast(Attribute $attribute): CastsAttributes
     {
         return new (
-        $attribute->cast === NullCast::class
-            ? $this->getDefaultCastFQNS($attribute->type)
-            : $attribute->cast
+        $attribute->cast_classname === NullCast::class
+            ? $attribute->type->makeAttribute($attribute)
+            : $attribute->cast_classname
         );
     }
 }

@@ -80,3 +80,16 @@ test('typecast to immutable time from string', function () {
 
     expect($model->created_at)->datetimeImmutable();
 });
+
+test('invalid date immutable', function () {
+    $test_value = 'invalid';
+
+    $schema = new class extends Schema {
+        public function __construct()
+        {
+            $this->registerAttribute('created_at', AttributeType::datetime_immutable);
+        }
+    };
+
+    new Model(['created_at' => $test_value], $schema);
+})->throws(TypeError::class);
