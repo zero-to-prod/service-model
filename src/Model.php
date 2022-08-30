@@ -19,21 +19,30 @@ class Model
 
     protected function registerAttributes(array $attributes, Schema $schema): void
     {
-        /** @var Attribute $type */
-        foreach ($schema->attributes as $name => $type) {
+        if (! isset($schema->attributes)) {
+            return;
+        }
+
+        /** @var Attribute $attribute */
+        foreach ($schema->attributes as $name => $attribute) {
             // Do not permit unregistered attributes.
             if (! isset($attributes[$name])) {
                 continue;
             }
 
-            $attribute_cast = $this->makeCast($type);
-            $value          = $attribute_cast->set($attributes[$name]);
+            $cast  = $this->makeCast($attribute);
+            $value = $cast->set($attributes[$name]);
 
-            $this->registerAttribute($name, $value, $type->type, $attribute_cast::class);
+            $this->registerAttribute($name, $value, $attribute->type, $cast::class);
         }
     }
 
-    private function getCastClassname(AttributeType $type): string
+    private function registerAttribute($name, $value, AttributeType $type, string $cast_class_name): void
+    {
+        $this->attributes[$name] = new Attribute($value, $type, $cast_class_name);
+    }
+
+    private function getDefaultCastFQNS(AttributeType $type): string
     {
         return match ($type) {
             AttributeType::null => NullCast::class,
@@ -47,6 +56,7 @@ class Model
     {
         /** @var Attribute $type */
         $type = $this->attributes[$name] ?? null;
+
         if ($type === null) {
             return $type?->value;
         }
@@ -63,30 +73,25 @@ class Model
     {
     }
 
-    public function toArray(): ?array
+    public function toArray(): array
     {
         if (! isset($this->attributes)) {
-            return null;
+            return [];
         }
-        $array = [];
+
         foreach ($this->attributes as $name => $value) {
             $array[$name] = $this->attributes[$name]->value;
         }
 
-        return $array;
+        return $array ?? [];
     }
 
-    private function registerAttribute($name, $value, AttributeType $type, string $cast_class_name): void
-    {
-        $this->attributes[$name] = new Attribute($value, $type, $cast_class_name);
-    }
-
-    protected function makeCast(Attribute $type): CastsAttributes
+    protected function makeCast(Attribute $attribute): CastsAttributes
     {
         return new (
-        $type->cast_classname === NullCast::class
-            ? $this->getCastClassname($type->type)
-            : $type->cast_classname
+        $attribute->cast === NullCast::class
+            ? $this->getDefaultCastFQNS($attribute->type)
+            : $attribute->cast
         );
     }
 }

@@ -7,7 +7,7 @@ use ZeroToProd\ServiceModel\Schema;
 test('returns null', function () {
     $model = new Model;
 
-    expect($model->toArray())->toBeNull();
+    expect($model->toArray())->toBe([]);
 });
 
 test('returns array with dynamic get/get', function () {

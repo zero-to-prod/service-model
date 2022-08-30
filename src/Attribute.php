@@ -8,8 +8,8 @@ class Attribute
 {
     public function __construct(
         public mixed $value,
-        public AttributeType $type = AttributeType::null,
-        public string $cast_classname = NullCast::class
+        public readonly AttributeType $type = AttributeType::null,
+        public readonly string $cast = NullCast::class
     ) {
     }
 }
