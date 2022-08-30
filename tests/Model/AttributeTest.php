@@ -2,6 +2,7 @@
 /** @noinspection PhpUndefinedFieldInspection */
 
 use ZeroToProd\ServiceModel\AttributeType;
+use ZeroToProd\ServiceModel\Casts\IntCast;
 use ZeroToProd\ServiceModel\Model;
 use ZeroToProd\ServiceModel\Schema;
 
@@ -36,6 +37,41 @@ test('overwrites the same attribute', function () {
     expect($model->id)->toBe(1);
 });
 
+test('dynamically register attribute in one line', function () {
+    $model = new Model();
+
+    $model->registerAttribute('id', AttributeType::int, IntCast::class, '1');
+
+    expect($model->id)->toBe(1);
+});
+
+test('dynamically register attribute', function () {
+    $model = new Model();
+
+    $model->registerAttribute('id', AttributeType::int, IntCast::class);
+    $model->id = '1';
+    // die(var_dump($model));
+
+    expect($model->id)->toBe(1);
+});
+test('dynamically register attribute simple', function () {
+    $model = new Model();
+
+    $model->registerAttribute('id', AttributeType::int);
+    $model->id = '1';
+    // die(var_dump($model));
+
+    expect($model->id)->toBe(1);
+});
+test('dynamically register attribute minimal', function () {
+    $model = new Model();
+
+    $model->registerAttribute('id');
+    $model->id = '1';
+    // die(var_dump($model));
+
+    expect($model->id)->toBe('1');
+});
 test('returns two attributes', function () {
     $test_value_id   = '1';
     $test_value_name = '2';

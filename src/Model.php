@@ -26,22 +26,25 @@ class Model
             return;
         }
 
-        /** @var string $key */
-        foreach ($schema->getAttributes() as $key => $attribute) {
+        foreach ($schema->getAttributes() as $name => $attribute) {
             // Do not permit unregistered attributes.
-            if (! isset($attributes[$key])) {
+            if (! isset($attributes[$name])) {
                 continue;
             }
 
-            $cast  = $this->makeCast($attribute);
-            $value = $cast->set($attributes[$key]);
+            $cast = $this->makeCast($attribute);
+            $value = $cast->set($attributes[$name]);
 
-            $this->registerAttribute($key, $value, $attribute->type, $cast::class);
+            $this->registerAttribute($name, $attribute->type, $cast::class, $value);
         }
     }
 
-    private function registerAttribute(string $name, $value, AttributeType $type, string $cast): void
-    {
+    public function registerAttribute(
+        string $name,
+        AttributeType $type = AttributeType::null,
+        string $cast = NullCast::class,
+        $value = null
+    ): void {
         $this->attributes[$name] = new Attribute($value, $type, $cast);
     }
 
@@ -68,7 +71,14 @@ class Model
 
     public function __set($name, $value)
     {
-        $this->registerAttribute($name, $value, AttributeType::null, NullCast::class);
+        $attribute = $this->attributes[$name] ?? null;
+
+        if ($attribute === null) {
+            $this->registerAttribute($name, value: $value);
+        } else {
+            $this->attributes[$name] = new Attribute($value, $attribute->type, $attribute->cast);
+        }
+
     }
 
     public function __isset($name)
@@ -81,8 +91,6 @@ class Model
             return [];
         }
 
-        /** @var string $key */
-        /** @var Attribute $attribute */
         foreach ($this->attributes as $key => $attribute) {
             $array[$key] = $this->attributes[$key]->value;
         }
