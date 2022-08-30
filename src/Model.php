@@ -9,6 +9,9 @@ use ZeroToProd\ServiceModel\Casts\StringCast;
 
 class Model
 {
+    /**
+     * @var array<int, Attribute>
+     */
     protected array $attributes;
     protected string $schema;
 
@@ -19,13 +22,12 @@ class Model
 
     protected function registerAttributes(array $attributes, Schema $schema): void
     {
-        if (! isset($schema->attributes)) {
+        if ($schema->getAttributes() === []) {
             return;
         }
 
         /** @var string $key */
-        /** @var Attribute $attribute */
-        foreach ($schema->attributes as $key => $attribute) {
+        foreach ($schema->getAttributes() as $key => $attribute) {
             // Do not permit unregistered attributes.
             if (! isset($attributes[$key])) {
                 continue;
@@ -55,11 +57,10 @@ class Model
 
     public function __get($name)
     {
-        /** @var Attribute $attribute */
         $attribute = $this->attributes[$name] ?? null;
 
         if ($attribute === null) {
-            return $attribute?->value;
+            return null;
         }
 
         return $this->makeCast($attribute)->get($attribute->value);
