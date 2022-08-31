@@ -1,4 +1,4 @@
-# Schema-based Models for Your Data
+# Schema-based models for your data
 
 ## Usage
 
