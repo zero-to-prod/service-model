@@ -4,7 +4,8 @@
 use App\Models\Order;
 
 test('test an order', function () {
-    $model = new Order(['id' => 1, 'plus_one' => 1]);
+    $model = new Order(['id' => 1, 'name' => 'name']);
 
-    expect($model->plus_one)->toBe(2);
+    expect($model->id)->toBe(1)
+        ->and($model->name)->toBe('NAME');
 });
