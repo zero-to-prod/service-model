@@ -50,7 +50,6 @@ test('dynamically register attribute', function () {
 
     $model->registerAttribute('id', AttributeType::int, IntCast::class);
     $model->id = '1';
-    // die(var_dump($model));
 
     expect($model->id)->toBe(1);
 });
@@ -68,7 +67,6 @@ test('dynamically register attribute minimal', function () {
 
     $model->registerAttribute('id');
     $model->id = '1';
-    // die(var_dump($model));
 
     expect($model->id)->toBe('1');
 });

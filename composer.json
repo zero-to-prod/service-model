@@ -1,6 +1,6 @@
 {
     "name": "zero-to-prod/service-model",
-    "description": "Eloquent-like models for your service.",
+    "description": "Schema-based Models for Your Data",
     "type": "library",
     "license": "MIT",
     "autoload": {

@@ -6,7 +6,7 @@ use App\Models\Order;
 test('test an order', function () {
     $model = new Order([
         'id'       => 1,
-        'plus_one' => 1,
+        'name' => 'John Doe',
         'customer' => [
             'id'   => 123,
             'name' => 'John Doe'
@@ -23,7 +23,7 @@ test('test an order', function () {
         ]
     ]);
 
-    expect($model->plus_one)->toBe(2)
+    expect($model->name)->toBe('JOHN DOE')
         ->and($model->customer->id)->toBe(123)
         ->and($model->contacts[1]->name)->toBe('Jane Doe');
 });
