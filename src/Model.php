@@ -11,9 +11,19 @@ class Model
      */
     protected array $attributes;
     protected string $schema;
+    protected array $all;
 
     public function __construct(array $attributes = [], Schema $schema = new Schema)
     {
+        $this->all = $attributes;
+
+        foreach ($this->all as $key => $attribute) {
+            if (method_exists($this, $key)) {
+                $relation   = $this->$key();
+                $this->$key = $relation;
+            }
+        }
+
         $this->registerAttributes($attributes, isset($this->schema) ? new $this->schema : $schema);
     }
 
@@ -58,6 +68,13 @@ class Model
 
     public function __set($name, $value)
     {
+        if (is_a($value, __CLASS__)) {
+            $this->$name = $value;
+        }
+        if (is_array($value)) {
+            $this->$name = $value;
+        }
+
         $attribute = $this->attributes[$name] ?? null;
 
         if ($attribute === null) {
@@ -91,5 +108,34 @@ class Model
             ? $attribute->type->makeAttribute($attribute)
             : $attribute->cast_classname
         );
+    }
+
+    public function belongsTo(string $model, string $column): ?Model
+    {
+        if (isset($this->all[$column])) {
+            $array = $this->all[$column];
+
+            return new $model($array);
+        }
+
+        return null;
+    }
+
+    public function hasMany(string $model, string $column): ?array
+    {
+        if (isset($this->all[$column])) {
+            if (is_array($this->all[$column])) {
+                $result = [];
+                foreach ($this->all[$column] as $item) {
+                    $result[] = new $model($item);
+                }
+
+                return $result;
+            }
+
+            return null;
+        }
+
+        return null;
     }
 }
