@@ -2,11 +2,10 @@
 
 ## Usage
 
-This package provides a way to describe a model using a schema.
-By passing an associative array to the models' constructor, the values are automatically cast based on the schema on
-the model.
+This package provides a way to describe attributes on a model.
+By passing an associative array to the models' constructor, the attributes are automatically handled based on the schema defined on the model.
 
-Custom typecast for getting and setting can be registered in the schema.
+Custom typecasts can be registered in the schema.
 
 ```php
 $order = new Order(['id' => '1', 'name' => 'John Doe']);
@@ -55,7 +54,13 @@ class TitleCast implements CastsAttributes
 }
 ```
 ## Features
-Dynamically register an attribute.
+
+Native PHP Types:
+- `int`
+- `string`
+- `DatetimeImmutable`
+
+Dynamic Attribute Registration
 ```php
 $model = new Model();
 $model->int; // null
@@ -63,7 +68,7 @@ $model->int; // null
 $model->registerAttribute(name: 'id', type: AttributeType::int, cast: IntCast::class, value: '1');
 $model->id; // (int) 1
 ```
-Grabs only registered attribute when passed to the constructor.
+Ignores unregistered attributes when passed to the constructor.
 ```php
 $model = new Model(['registered' => true, 'unregistered' => false]);
 
@@ -71,7 +76,7 @@ $model->registered; // true
 $model->unregistered; // null
 ```
 
-Dynamic set
+Dynamic set/get
 ```php
 $model = new Model();
 
