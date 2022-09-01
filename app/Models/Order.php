@@ -18,4 +18,9 @@ class Order extends Model
     {
         return $this->hasMany(Contact::class, 'contacts');
     }
+
+    public function getId()
+    {
+        return $this->id;
+    }
 }

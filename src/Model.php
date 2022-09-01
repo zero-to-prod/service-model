@@ -35,7 +35,7 @@ class Model
 
         foreach ($schema->getAttributes() as $name => $attribute) {
             // Do not permit unregistered attributes.
-            if (! isset($attributes[$name])) {
+            if (! isset($attributes[$name]) && $attribute->alias === null) {
                 continue;
             }
 
@@ -43,6 +43,9 @@ class Model
             $value = $cast->set($attributes[$name]);
 
             $this->registerAttribute($name, $attribute->type, $cast::class, $value);
+            if ($attribute->alias !== null) {
+                $this->registerAttribute($attribute->alias, $attribute->type, $cast::class, $value);
+            }
         }
     }
 

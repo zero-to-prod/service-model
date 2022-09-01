@@ -27,3 +27,11 @@ test('test an order', function () {
         ->and($model->customer->id)->toBe(123)
         ->and($model->contacts[1]->name)->toBe('Jane Doe');
 });
+
+test('run a method on a model', function () {
+    $model = new Order([
+        'id'       => 1,
+    ]);
+
+    expect($model->getId())->toBe(1);
+});
