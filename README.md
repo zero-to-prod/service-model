@@ -55,6 +55,28 @@ class TitleCast implements CastsAttributes
 ```
 ## Features
 
+Renaming
+```php
+/* In Schema */
+$this->registerAttribute(name: 'id',  rename: 'object_id');
+
+$model = new Model(['id' => 1]);
+
+$model->id; // null
+$model->object_id; // (int) 1
+```
+
+Aliasing
+```php
+/* In Schema */
+$this->registerAttribute(name: 'id',  alias: 'object_id');
+
+$model = new Model(['id' => 1]);
+
+$model->id; // (int) 1
+$model->object_id; // (int) 1
+```
+
 Native PHP Types:
 - `int`
 - `string`
