@@ -115,30 +115,16 @@ class Model
 
     public function belongsTo(string $model, string $column): ?Model
     {
-        if (isset($this->all[$column])) {
-            $array = $this->all[$column];
-
-            return new $model($array);
-        }
-
-        return null;
+        return new $model($this->all[$column]);
     }
 
     public function hasMany(string $model, string $column): ?array
     {
-        if (isset($this->all[$column])) {
-            if (is_array($this->all[$column])) {
-                $result = [];
-                foreach ($this->all[$column] as $item) {
-                    $result[] = new $model($item);
-                }
-
-                return $result;
-            }
-
-            return null;
+        $result = [];
+        foreach ($this->all[$column] as $item) {
+            $result[] = new $model($item);
         }
 
-        return null;
+        return $result;
     }
 }
