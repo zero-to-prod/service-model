@@ -5,6 +5,9 @@
 This package provides a way to describe attributes on a model.
 By passing an associative array to the models' constructor, the attributes are automatically handled based on the schema defined on the model.
 
+This is useful if you have an array of data that you want to interact with in the laravel model style.
+This provides a opportunity to automatically type-cast data based on a schema.
+
 Custom typecasts can be registered in the schema.
 
 ```php
